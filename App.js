@@ -33,6 +33,15 @@ app.get("/delete/:id",async(req,res)=>{
     res.redirect("/read");
 
 });
+app.get("/edit/:userid",async(req,res)=>{
+    let user= await usermodel.findOne({_id: req.params.userid});
+    res.render("edit",{user});
+})
+app.post("/update/:userid" ,async (req,res)=>{
+    let {username,email,image} = req.body;
+    let updateduser = await usermodel.findOneAndUpdate({_id: req.params.userid}, {username,email,image});
+    res.redirect("/read");
+})
 app.listen(PORT,()=>{
     console.log(`Server is running at ${PORT}`);
 })
